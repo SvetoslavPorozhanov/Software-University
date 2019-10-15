@@ -95,6 +95,12 @@ WHERE f.Id NOT IN (SELECT DISTINCT f2.ParentId
 					WHERE f2.ParentId IS NOT NULL)
 ORDER BY f.Id, f.[Name], f.Size DESC
 
+SELECT f2.Id, f2.[Name], CONCAT(f2.Size, 'KB') AS Size
+FROM Files AS f
+RIGHT JOIN Files AS f2 ON f.ParentId = f2.Id
+WHERE f.Id IS NULL
+ORDER BY f2.Id, f2.[Name], f2.Size
+
 --SELECT TOP(5) r.Id, r.[Name], COUNT(c.Id) AS Commits
 --FROM Commits AS c
 --JOIN Repositories AS r ON c.RepositoryId = r.Id
@@ -109,6 +115,14 @@ JOIN RepositoriesContributors AS rc
 ON rc.RepositoryId = r.Id
 GROUP BY r.Id, r.[Name]
 ORDER BY [Commits] DESC, r.Id, r.[Name]
+
+--Author's solution
+SELECT TOP(5) r.Id, r.[Name], COUNT(*) AS Contributers
+FROM RepositoriesContributors AS rc
+JOIN Repositories AS r ON rc.RepositoryId = r.Id
+JOIN Commits AS c ON c.RepositoryId = r.Id
+GROUP BY r.Id, r.[Name]
+ORDER BY Contributers DESC, r.Id, r.[Name]
 
 SELECT *
 FROM Repositories AS r
