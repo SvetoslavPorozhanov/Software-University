@@ -23,7 +23,7 @@
                 .Where(p => p.Tasks.Count >= 1)
                 .Select(p => new ProjectExportDto
                 {
-                    TasksCount = p.Tasks.Count(),
+                    TasksCount = p.Tasks.Count,
                     ProjectName = p.Name,
                     HasEndDate = p.DueDate == null ? "No" : "Yes",
                     Tasks = p.Tasks.Select(t => new TaskExportDto
@@ -34,7 +34,7 @@
                     .OrderBy(t => t.Name)
                     .ToArray()
                 })
-                .OrderByDescending(p => p.Tasks.Count())
+                .OrderByDescending(p => p.TasksCount)
                 .ThenBy(p => p.ProjectName)
                 .ToArray();
 
