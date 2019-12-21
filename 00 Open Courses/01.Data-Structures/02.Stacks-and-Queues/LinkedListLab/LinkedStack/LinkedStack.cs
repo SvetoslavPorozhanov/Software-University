@@ -1,86 +1,86 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LinkedStack
+class LinkedStack<T> : IEnumerable<T>
 {
-    class LinkedStack<T> : IEnumerable<T>
+    public int Count { get; set; }
+    private StackNode top;
+
+    public void Push(T element)
     {
-        public int Count { get; set; }
-        private StackNode top;
+        this.top = new StackNode(element, this.top);
 
-        public void Push(T element)
+        this.Count++;
+    }
+
+    public T Pop()
+    {
+        if (this.Count == 0)
         {
-            this.top = new StackNode(element, this.top);
-
-            this.Count++;
+            throw new InvalidOperationException();
         }
 
-        public T Pop()
+        T result = this.top.Value;
+        this.top = this.top.Next;
+        this.Count--;
+
+        return result;
+    }
+
+    public T Peek()
+    {
+        if (this.Count == 0)
         {
-            if (this.Count == 0)
-            {
-                throw new InvalidOperationException();
-            }
-
-            T result = this.top.Value;
-            this.top = this.top.Next;
-            this.Count--;
-
-            return result;
+            throw new InvalidOperationException();
         }
 
-        public T Peek()
+        T result = this.top.Value;
+
+        return result;
+    }
+
+    public T[] ToArray()
+    {
+        T[] array = new T[this.Count];
+
+        StackNode current = this.top;
+        int index = 0;
+
+        while (current != null)
         {
-            if (this.Count == 0)
-            {
-                throw new InvalidOperationException();
-            }
-
-            T result = this.top.Value;
-
-            return result;
+            array[index++] = current.Value;
+            current = current.Next;
         }
 
-        public T[] ToArray()
+        return array;
+    }
+
+    public IEnumerator<T> GetEnumerator()
+    {
+        StackNode current = this.top;
+
+        while (current != null)
         {
-            T[] array = new T[this.Count];
-
-            StackNode current = this.top;
-            int index = 0;
-
-            while (current != null)
-            {
-                array[index++] = current.Value;
-                current = current.Next;
-            }
-
-            return array;
+            yield return current.Value;
+            current = current.Next;
         }
+    }
 
-        public IEnumerator<T> GetEnumerator()
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return this.GetEnumerator();
+    }
+
+    private class StackNode
+    {
+        public T Value { get; set; }
+        public StackNode Next { get; set; }
+
+        public StackNode(T value, StackNode next)
         {
-            throw new NotImplementedException();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        private class StackNode
-        {
-            public T Value { get; set; }
-            public StackNode Next { get; set; }
-
-            public StackNode(T value, StackNode next)
-            {
-                this.Value = value;
-                this.Next = next;
-            }
+            this.Value = value;
+            this.Next = next;
         }
     }
 }
