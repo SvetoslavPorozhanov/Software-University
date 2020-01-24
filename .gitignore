@@ -4,6 +4,4 @@ bin
 obj
 *.txt
 *.zip
-DesignTimeBuild
-config
-v16
+.vs
