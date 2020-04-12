@@ -5,3 +5,5 @@ obj
 *.txt
 *.zip
 .vs
+*.docx
+*.pptx
