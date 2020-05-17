@@ -7,3 +7,6 @@ obj
 .vs
 *.docx
 *.pptx
+*.png
+*.jpg
+*.jpeg
