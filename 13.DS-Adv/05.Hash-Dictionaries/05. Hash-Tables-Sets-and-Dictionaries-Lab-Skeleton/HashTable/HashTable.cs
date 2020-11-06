@@ -48,8 +48,9 @@
             if (buckets[index] == null)
             {
                 buckets[index] = new List<KeyValue<TKey, TValue>>();
-                buckets[index].Add(item);
+                
             }
+            buckets[index].Add(item);
         }
 
         private int GetIndex(TKey key)
